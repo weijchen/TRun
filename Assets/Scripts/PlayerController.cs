@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
         // Jump Operation
         if (isJump)
         {
-            _rigidbody.AddForce(Vector3.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
+            _rigidbody.AddForce(transform.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
             isJump = false;
         }
     }

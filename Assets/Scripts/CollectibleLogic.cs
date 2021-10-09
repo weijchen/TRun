@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,8 @@ public enum UpAxis
 
 public class CollectibleLogic : MonoBehaviour
 {
-    [SerializeField]
-    float rotationSpeed;
-    [SerializeField]
-    UpAxis upAxis;
+    [SerializeField] float rotationSpeed;
+    [SerializeField] UpAxis upAxis;
     Vector3 upDir;
 
 
@@ -23,7 +22,7 @@ public class CollectibleLogic : MonoBehaviour
     AudioClip coinClip;
 
     ParticleSystem particle;
-    // Start is called before the first frame update
+    
     void Start()
     {
         particle = GetComponentInChildren<ParticleSystem>();
@@ -32,7 +31,6 @@ public class CollectibleLogic : MonoBehaviour
         SetUpAxis();
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Rotate(upDir * rotationSpeed);
@@ -40,7 +38,6 @@ public class CollectibleLogic : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        
         if(other.tag == "Player")
         {
             //audioSource.PlayOneShot(coinClip);
@@ -50,7 +47,6 @@ public class CollectibleLogic : MonoBehaviour
             Invoke("LateDestroy", 0.3f);
         }
     }
-
 
     private void SetUpAxis()
     {
@@ -72,7 +68,4 @@ public class CollectibleLogic : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-
-
 }

@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6062900855148417422}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.042, y: 1.5, z: -104.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -64,15 +64,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHeight: 2
   cam: {fileID: 6062900856837562316}
-  verticalForceMulti: 10
-  horizontalForceMulti: 5
+  verticalForceMulti: 40
+  horizontalForceMulti: 15
   boardCenter: {fileID: 6062900856329362886}
   boardFront: {fileID: 6062900856174291790}
-  maxSpeed: 10
-  groundDrag: 2
-  airMultiplier: 0.6
+  maxSpeed: 200
+  groundDrag: 1
+  airMultiplier: 0.7
   jumpKey: 32
-  jumpForce: 0.1
+  jumpForce: 5
   groundChecker: {fileID: 6062900855319900045}
   groundDistance: 1
   groundLayer:
@@ -80,7 +80,7 @@ MonoBehaviour:
     m_Bits: 64
   isUsingEyeTracking: 0
   jumpThreshold: 0.3
-  airDrag: 3
+  airDrag: 1.5
   slopeDetector: {fileID: 6062900856174291785}
   slopeRotationMulti: 3
 --- !u!114 &6062900855148417418
@@ -95,8 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ce3d653eb668843bc16839907a9e4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundDetectDistance: 10
+  groundDetectDistance: 20
   playerRotationTime: 1.5
+  groundDetectposition: {fileID: 6062900855319900045}
   cam: {fileID: 6062900856837562316}
   fov: 90
   wallRunfov: 110
@@ -114,7 +115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 102347352, guid: 807ca0f17a5a6594f9e14dda5b4043e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.48
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 1110753299, guid: 807ca0f17a5a6594f9e14dda5b4043e7, type: 3}
       propertyPath: m_Layer

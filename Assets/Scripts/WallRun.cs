@@ -8,6 +8,7 @@ public class WallRun : MonoBehaviour
     [Header("Player Rotation")]
     [SerializeField] private float groundDetectDistance = 10.0f;
     [SerializeField] private float playerRotationTime = 1.5f;
+    [SerializeField] private Transform groundDetectposition;
     
     [Header("Camera")] 
     [SerializeField] private Camera cam;
@@ -20,11 +21,13 @@ public class WallRun : MonoBehaviour
         cam.transform.rotation = transform.rotation;
         LayerMask layer_mask = LayerMask.GetMask("Ground");
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, groundDetectDistance, layer_mask))
+        if (Physics.Raycast(groundDetectposition.position, Vector3.down, out hit, groundDetectDistance, layer_mask))
         {
+            Debug.Log("rotate");
             StartWallRun();
             Quaternion hitObjectRotation = hit.transform.rotation;
             transform.rotation = Quaternion.Slerp(transform.rotation, hitObjectRotation, Time.deltaTime/playerRotationTime);
+            groundDetectposition.rotation = Quaternion.Slerp(groundDetectposition.rotation, hitObjectRotation, Time.deltaTime/playerRotationTime);
         }
         else
         {
