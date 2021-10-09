@@ -9,6 +9,7 @@ public class WallRun : MonoBehaviour
     [SerializeField] private float groundDetectDistance = 10.0f;
     [SerializeField] private float playerRotationTime = 1.5f;
     [SerializeField] private Transform groundDetectposition;
+    [SerializeField] private LayerMask rotateLayer;
     
     [Header("Camera")] 
     [SerializeField] private Camera cam;
@@ -18,22 +19,34 @@ public class WallRun : MonoBehaviour
     
     public void RotateBody()
     {
-        cam.transform.rotation = transform.rotation;
-        LayerMask layer_mask = LayerMask.GetMask("Ground");
+        RotateCamera();
+        RotateOnLayer();
+    }
+
+    private void RotateOnLayer()
+    {
+        // LayerMask layer_mask = LayerMask.GetMask("Ground");
         RaycastHit hit;
-        if (Physics.Raycast(groundDetectposition.position, Vector3.down, out hit, groundDetectDistance, layer_mask))
+        if (Physics.Raycast(groundDetectposition.position, Vector3.down, out hit, groundDetectDistance, rotateLayer))
         {
-            Debug.Log("rotate");
             StartWallRun();
             Quaternion hitObjectRotation = hit.transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, hitObjectRotation, Time.deltaTime/playerRotationTime);
-            groundDetectposition.rotation = Quaternion.Slerp(groundDetectposition.rotation, hitObjectRotation, Time.deltaTime/playerRotationTime);
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, hitObjectRotation, Time.deltaTime / playerRotationTime);
+            groundDetectposition.rotation = Quaternion.Slerp(groundDetectposition.rotation, hitObjectRotation,
+                Time.deltaTime / playerRotationTime);
         }
         else
         {
             StopWallRun();
         }
     }
+
+    private void RotateCamera()
+    {
+        // cam.transform.rotation = transform.rotation;
+    }
+
     private void StartWallRun()
     {
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, wallRunfov, wallRunfovTime * Time.deltaTime);

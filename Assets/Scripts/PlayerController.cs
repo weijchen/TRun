@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] private float playerHeight = 2.0f;
-    [SerializeField] private Camera cam;
     
     [Header("Movement")]
     [SerializeField] private float verticalForceMulti = 10.0f;
@@ -26,6 +25,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxSpeed = 100.0f;
     [SerializeField] private float groundDrag = 2.0f;
     [SerializeField] private float airMultiplier = 0.6f;
+    [SerializeField] private float rotationMulti = 0.15f;
+
+    [Header("Rotation")] 
+    [SerializeField] private float controlRollFactor = -20.0f;
 
     [Header("Jump")]
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
@@ -51,6 +54,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
     private WallRun _wallRun;
     private RaycastHit slopeHit;
+
+    private float xThrow;
+    private float yThrow;
 
     private void Start()
     {
@@ -98,14 +104,18 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                _rigidbody.MovePosition(_rigidbody.position + moveInputVal * Time.fixedDeltaTime);
+                // _rigidbody.MovePosition(_rigidbody.position + moveInputVal * Time.fixedDeltaTime);
+
+                Debug.Log(moveInputVal);
+                Debug.Log(Time.fixedDeltaTime);
+                _rigidbody.AddForce(moveInputVal, ForceMode.Acceleration);
             }
         }
         
         // Set Speed Maximum Limit
         if (_rigidbody.velocity.magnitude > maxSpeed)
         { 
-            _rigidbody.velocity *= maxSpeed;
+            _rigidbody.velocity = _rigidbody.velocity.normalized * maxSpeed;
         }
         
         // Jump Operation
@@ -132,6 +142,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ProcessRotation()
+    {
+        float row = xThrow * controlRollFactor;
+        // transform.localRotation = Quaternion.Euler(transform.localRotation.x, Input.GetAxisRaw("Horizontal") * rotationMulti, row);
+        transform.Rotate(0.0f, Input.GetAxisRaw("Horizontal") * rotationMulti, 0.0f);
+    }
+
     private void ControlDrag()
     {
         _rigidbody.drag = isGrounded ? groundDrag : airDrag;
@@ -148,17 +165,21 @@ public class PlayerController : MonoBehaviour
         Vector3 verticalForce = boardFront.transform.position - boardCenter.transform.position;
         if (isGrounded)
         {
-            moveInputVal = verticalForce.normalized * verticalForceMulti;
+            Debug.Log("ground");
+            moveInputVal = verticalForce * verticalForceMulti;
         }
         else
         {
-            moveInputVal = verticalForce.normalized * verticalForceMulti * airMultiplier;
+            Debug.Log("air");
+            moveInputVal = verticalForce * verticalForceMulti * airMultiplier;
         }
     }
 
     private void AddHorizontalForce()
     {
-        moveInputVal += Input.GetAxisRaw("Horizontal") * horizontalForceMulti * transform.right;
+        xThrow = Input.GetAxisRaw("Horizontal") * horizontalForceMulti;
+        moveInputVal += xThrow * transform.right;
+        ProcessRotation();
     }
 
     private void CheckJump()
