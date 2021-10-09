@@ -7,6 +7,7 @@ using Tobii.Gaming;
 using UnityEditor.Experimental.GraphView;
 
 /*
+ * TODO: add car tilt when left and right
  * TODO: re-calibration at the beginning?
  * TODO: probably make an auto jump edge for jumping operations
  */
@@ -34,20 +35,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private bool isUsingEyeTracking = false;
     [SerializeField] private float jumpThreshold = 0.3f;
-    [SerializeField] private Canvas viewPort;
     [SerializeField] private float airDrag = 1.0f;
+    
+    [Header("On Slope")]
+    [SerializeField] private Transform slopeDetector;
+    [SerializeField] private float slopeRotationMulti = 3.0f;
     
     private bool isForwarding = true;
     private bool isCrossing = true;
     private bool isJump = false;
     private bool isGrounded = true;
     private Vector3 moveInputVal = Vector3.zero;
+    private Vector3 slopeInputVal = Vector3.zero;
 
     private Rigidbody _rigidbody;
     private WallRun _wallRun;
-
-    private float horizontalMovement;
-    private float verticalMovement;
+    private RaycastHit slopeHit;
 
     private void Start()
     {
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         ControlDrag();
+        slopeInputVal = Vector3.ProjectOnPlane(moveInputVal, slopeHit.normal);
         _wallRun.RotateBody();
     }
     
@@ -87,7 +91,15 @@ public class PlayerController : MonoBehaviour
     {
         if (moveInputVal != Vector3.zero)
         {
-            _rigidbody.MovePosition(_rigidbody.position + moveInputVal * Time.fixedDeltaTime);
+            if (OnSlope())
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, slopeHit.transform.rotation, Time.deltaTime * slopeRotationMulti);
+                _rigidbody.MovePosition(_rigidbody.position + slopeInputVal * Time.fixedDeltaTime);
+            }
+            else
+            {
+                _rigidbody.MovePosition(_rigidbody.position + moveInputVal * Time.fixedDeltaTime);
+            }
         }
         
         // Set Speed Maximum Limit
@@ -99,7 +111,7 @@ public class PlayerController : MonoBehaviour
         // Jump Operation
         if (isJump)
         {
-            _rigidbody.AddForce(Vector3.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.VelocityChange);
+            _rigidbody.AddForce(Vector3.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
             isJump = false;
         }
     }
@@ -155,5 +167,18 @@ public class PlayerController : MonoBehaviour
         {
             isJump = true;
         }
+    }
+
+    private bool OnSlope()
+    {
+        if (Physics.Raycast(slopeDetector.position, Vector3.forward, out slopeHit, playerHeight / 2 + 1.0f))
+        {
+            if (slopeHit.normal != Vector3.up)
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }
