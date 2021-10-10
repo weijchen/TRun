@@ -41,10 +41,11 @@ public class CollectibleLogic : MonoBehaviour
         if(other.tag == "Player")
         {
             //audioSource.PlayOneShot(coinClip);
-            GetComponent<MeshRenderer>().enabled = false;
-            particle.Play();
-            GameManager.Instance.Collect();
-            Invoke("LateDestroy", 0.3f);
+            // GetComponent<MeshRenderer>().enabled = false;
+            // particle.Play();
+            // GameManager.Instance.Collect();
+            Destroy(gameObject);
+            // Invoke("LateDestroy", 0.3f);
         }
     }
 

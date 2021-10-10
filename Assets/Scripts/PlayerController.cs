@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float airMultiplier = 0.6f;
     [SerializeField] private float rotationMulti = 0.15f;
 
-    [Header("Rotation")] 
+    [Header("Rotation")]
+    [SerializeField] private Transform rotationBody;
     [SerializeField] private float controlRollFactor = -20.0f;
 
     [Header("Jump")]
@@ -100,14 +101,12 @@ public class PlayerController : MonoBehaviour
             if (OnSlope())
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, slopeHit.transform.rotation, Time.deltaTime * slopeRotationMulti);
-                _rigidbody.MovePosition(_rigidbody.position + slopeInputVal * Time.fixedDeltaTime);
+                _rigidbody.AddForce(slopeInputVal, ForceMode.Acceleration);
+
+                // _rigidbody.MovePosition(_rigidbody.position + slopeInputVal * Time.fixedDeltaTime);
             }
             else
             {
-                // _rigidbody.MovePosition(_rigidbody.position + moveInputVal * Time.fixedDeltaTime);
-
-                Debug.Log(moveInputVal);
-                Debug.Log(Time.fixedDeltaTime);
                 _rigidbody.AddForce(moveInputVal, ForceMode.Acceleration);
             }
         }
@@ -133,8 +132,13 @@ public class PlayerController : MonoBehaviour
         {
             float eyeX = gazePointRaw.Viewport.x - .5f;
             float eyeY = gazePointRaw.Viewport.y - .5f;
-            moveInputVal.x = eyeX * horizontalForceMulti;
-
+            xThrow = eyeX * horizontalForceMulti;
+            moveInputVal += xThrow * transform.right;
+            
+            float row = xThrow * controlRollFactor;
+            rotationBody.localRotation = Quaternion.Euler(row,-90.0f, 0);
+            transform.Rotate(0.0f, eyeY * rotationMulti, 0.0f);
+            
             if (eyeY >= jumpThreshold && isGrounded)
             {
                 isJump = true;
@@ -145,7 +149,7 @@ public class PlayerController : MonoBehaviour
     private void ProcessRotation()
     {
         float row = xThrow * controlRollFactor;
-        // transform.localRotation = Quaternion.Euler(transform.localRotation.x, Input.GetAxisRaw("Horizontal") * rotationMulti, row);
+        rotationBody.localRotation = Quaternion.Euler(row,-90.0f, 0);
         transform.Rotate(0.0f, Input.GetAxisRaw("Horizontal") * rotationMulti, 0.0f);
     }
 
@@ -192,7 +196,7 @@ public class PlayerController : MonoBehaviour
 
     private bool OnSlope()
     {
-        if (Physics.Raycast(slopeDetector.position, Vector3.forward, out slopeHit, playerHeight / 2 + 1.0f))
+        if (Physics.Raycast(slopeDetector.position, Vector3.forward, out slopeHit, playerHeight / 2 + 1.0f, groundLayer))
         {
             if (slopeHit.normal != Vector3.up)
             {
