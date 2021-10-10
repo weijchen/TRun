@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ClimbWall : MonoBehaviour
 {
+    /*
+     * TODO: resume gravity when die
+     */
     [SerializeField] private bool removeGravity = false;
     [SerializeField] private bool resumeGravity = false;
     
@@ -12,27 +15,25 @@ public class ClimbWall : MonoBehaviour
     {
         if (other.transform.tag == "Player")
         {
-            Debug.Log("player entered");
-
             if (removeGravity)
             {
-                // other.rigidbody.AddForce(-Physics.gravity * 100f, ForceMode.Force);
+                other.rigidbody.useGravity = false;
+                other.transform.GetComponent<PlayerController>().SetCanJump(false);
             }
 
             if (resumeGravity)
             {
                 other.rigidbody.useGravity = true;
+                other.transform.GetComponent<PlayerController>().SetCanJump(true);
             }
         }
     }
-    //
+
     // private void OnCollisionExit(Collision other)
     // {
     //     if (other.transform.tag == "Player")
     //     {
-    //         Debug.Log("player exit");
-    //         other.rigidbody.freezeRotation = false;  // this line might be useless
-    //         other.rigidbody.useGravity = true;
+    //         other.transform.GetComponent<PlayerController>().SetCanJump(true);
     //     }
     // }
 }

@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security;
 using UnityEngine;
 using Tobii.Gaming;
-using UnityEditor.Experimental.GraphView;
 
 /*
  * TODO: add car tilt when left and right
@@ -49,6 +47,7 @@ public class PlayerController : MonoBehaviour
     private bool isCrossing = true;
     private bool isJump = false;
     private bool isGrounded = true;
+    private bool canJump = true;
     private Vector3 moveInputVal = Vector3.zero;
     private Vector3 slopeInputVal = Vector3.zero;
 
@@ -116,12 +115,15 @@ public class PlayerController : MonoBehaviour
         { 
             _rigidbody.velocity = _rigidbody.velocity.normalized * maxSpeed;
         }
-        
+
         // Jump Operation
-        if (isJump)
+        if (canJump)
         {
-            _rigidbody.AddForce(transform.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
-            isJump = false;
+            if (isJump)
+            {
+                _rigidbody.AddForce(transform.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
+                isJump = false;
+            }    
         }
     }
 
@@ -205,5 +207,11 @@ public class PlayerController : MonoBehaviour
             return false;
         }
         return false;
+    }
+
+    public void SetCanJump(bool state)
+    {
+        Debug.Log("you cannot jump now");
+        canJump = state;
     }
 }
