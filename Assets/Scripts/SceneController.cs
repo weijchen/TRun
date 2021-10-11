@@ -9,10 +9,21 @@ public class SceneController : MonoBehaviour
 
     [SerializeField]
     GameObject instructionPanel;
+
+    [SerializeField]
+    GameObject mainGame;
+    [SerializeField]
+    GameObject menu;
+    [SerializeField]
+    GameObject introAnim;
     // Start is called before the first frame update
     void Start()
     {
         instructionPanel.SetActive(false);
+
+        mainGame.SetActive(false);
+        introAnim.SetActive(false);
+        menu.SetActive(true);
     }
 
     // Update is called once per frame
@@ -24,8 +35,10 @@ public class SceneController : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Start");
+        introAnim.SetActive(true);
+        menu.SetActive(false);
         //SceneManager.LoadScene("PrologueScene");
-
+        Invoke("StartMainGame", 13.0f);
     }
 
     public void ExitGame()
@@ -49,6 +62,12 @@ public class SceneController : MonoBehaviour
     public void ShowCreditPanel()
     {
         Debug.Log("Credit");
+    }
+
+    void StartMainGame()
+    {
+        introAnim.SetActive(false);
+        mainGame.SetActive(true);
     }
     
 }
