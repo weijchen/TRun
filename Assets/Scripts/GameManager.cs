@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private bool isFading = false;
     private bool isClearing = true;
     private static GameManager _instance;
+    private float timeCounter = 0;
     
     private Vector3 lastPos;
     private Quaternion lastRot;
@@ -42,6 +43,23 @@ public class GameManager : MonoBehaviour
     {
         lastPos = player.transform.position;
         lastRot = player.transform.rotation;
+    }
+
+    void Update()
+    {
+        timeCounter += Time.deltaTime;
+    }
+
+    public string GetTime()
+    {
+        string timeStr = timeCounter.ToString();
+        return timeStr + " Seconds.";
+    }
+
+    public string Getscore()
+    {
+        string scoreStr = score.ToString();
+        return "Score: " + scoreStr;
     }
 
     public void Collect()
