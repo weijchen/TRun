@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip bgmClip;
-
-    private PlayerController _playerController;
+    // [SerializeField] private AudioClip bgmClip;
+    //
+    // private PlayerController _playerController;
 
     private void Start()
     {
-        _playerController = FindObjectOfType<PlayerController>();
-        _playerController.GetComponent<AudioSource>().PlayOneShot(bgmClip);
+        // _playerController = FindObjectOfType<PlayerController>();
+        // _playerController.GetComponent<AudioSource>().PlayOneShot(bgmClip);
     }
 }

@@ -4,23 +4,13 @@ using UnityEngine;
 
 public class CheckPointLogic : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    [SerializeField] private Transform checkPointPosition;
+    
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
         {
-            GameManager.Instance.StorePlayerPosition(transform.position, transform.rotation);
+            GameManager.Instance.StorePlayerPosition(checkPointPosition.position, checkPointPosition.rotation);
         }
     }
 

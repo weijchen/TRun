@@ -5,23 +5,19 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] float fadeSpeed = 1.5f;
+    [SerializeField] float clearSpeed = 5.0f;
+    [SerializeField] RawImage rawImage;
+    [SerializeField] GameObject player;
 
-    Vector3 lastPos;
-    Quaternion lastRot;
-
-    [SerializeField]
-    float fadeSpeed = 1.5f;
-    [SerializeField]
-    float clearSpeed = 5.0f;
-    [SerializeField]
-    RawImage rawImage;
-
-    [SerializeField]
-    GameObject player;
-
-    bool isFading = false;
-    bool isClearing = true;
+    private int score = 0;
+    private bool isFading = false;
+    private bool isClearing = true;
     private static GameManager _instance;
+    
+    private Vector3 lastPos;
+    private Quaternion lastRot;
+    
     public static GameManager Instance
     {
         get
@@ -42,24 +38,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    int score = 0;
-    // Start is called before the first frame update
     void Start()
     {
         lastPos = player.transform.position;
         lastRot = player.transform.rotation;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Collect()
     {
         score++;
-        Debug.Log(score);
     }
 
     public void StorePlayerPosition(Vector3 newPos, Quaternion newRot)
@@ -85,7 +72,6 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
-        
     }
 
     public IEnumerator PlayerDeath()
@@ -102,13 +88,11 @@ public class GameManager : MonoBehaviour
             }
             yield return null;
         }
-        
     }
 
     private void FadeToClear()
     {
         rawImage.color = Color.Lerp(rawImage.color, Color.clear, clearSpeed * Time.deltaTime);
-        
     }
 
     private void FadeToBlack()
@@ -116,6 +100,4 @@ public class GameManager : MonoBehaviour
         rawImage.color = Color.Lerp(rawImage.color, Color.black, fadeSpeed * Time.deltaTime);
         Debug.Log(rawImage.color.a);
     }
-
-
 }
