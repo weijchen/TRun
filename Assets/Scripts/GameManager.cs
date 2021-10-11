@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        while(timeIsCounting)
+        if (timeIsCounting)
         {
             timeCounter += Time.deltaTime;
         }

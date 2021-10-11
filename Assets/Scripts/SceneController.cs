@@ -12,15 +12,12 @@ public class SceneController : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] GameObject introAnim;
 
-    private GameManager _gameManager;
-    
     void Start()
     {
         instructionPanel.SetActive(false);
         mainGame.SetActive(false);
         introAnim.SetActive(false);
         menu.SetActive(true);
-        _gameManager = FindObjectOfType<GameManager>();
     }
 
     public void StartGame()
