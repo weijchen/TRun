@@ -12,16 +12,14 @@ public enum UpAxis
 
 public class CollectibleLogic : MonoBehaviour
 {
-    [SerializeField] float rotationSpeed;
-    [SerializeField] UpAxis upAxis;
-    Vector3 upDir;
-
-
-    AudioSource audioSource;
-    [SerializeField]
-    AudioClip coinClip;
-
-    ParticleSystem particle;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private UpAxis upAxis;
+    [SerializeField] private AudioClip coinClip;
+    [SerializeField] private float deleteAfterSecond = 1.0f;
+    
+    private AudioSource audioSource;
+    private Vector3 upDir;
+    private ParticleSystem particle;
     
     void Start()
     {
@@ -40,12 +38,12 @@ public class CollectibleLogic : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            //audioSource.PlayOneShot(coinClip);
-            // GetComponent<MeshRenderer>().enabled = false;
-            // particle.Play();
-            // GameManager.Instance.Collect();
-            Destroy(gameObject);
-            // Invoke("LateDestroy", 0.3f);
+            audioSource.PlayOneShot(coinClip);
+            GetComponent<MeshRenderer>().enabled = false;
+            particle.Play();
+            GameManager.Instance.Collect();
+            // Destroy(gameObject, 2.0f);
+            Invoke("LateDestroy", deleteAfterSecond);
         }
     }
 

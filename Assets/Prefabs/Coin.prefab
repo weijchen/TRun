@@ -5070,4 +5070,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 1
   upAxis: 1
-  coinClip: {fileID: 0}
+  coinClip: {fileID: 8300000, guid: cd9041d1f5db07845a25c21bef2edcc0, type: 3}
+  deleteAfterSecond: 1

@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] private float playerHeight = 2.0f;
+    [SerializeField] public bool atSlowZone = false;
     
     [Header("Movement")]
     [SerializeField] private float verticalForceMulti = 10.0f;
@@ -42,6 +43,11 @@ public class PlayerController : MonoBehaviour
     [Header("On Slope")]
     [SerializeField] private Transform slopeDetector;
     [SerializeField] private float slopeRotationMulti = 3.0f;
+
+    [Header("SFX")] 
+    [SerializeField] private AudioClip bounceClip;
+    [SerializeField] private AudioClip landingClip;
+    
     
     private bool isForwarding = true;
     private bool isCrossing = true;
@@ -50,11 +56,13 @@ public class PlayerController : MonoBehaviour
     private bool canJump = true;
     private Vector3 moveInputVal = Vector3.zero;
     private Vector3 slopeInputVal = Vector3.zero;
+    private bool haveLanding = true;
 
     private Rigidbody _rigidbody;
     private WallRun _wallRun;
     private RaycastHit slopeHit;
-
+    private AudioSource _audioSource;
+    
     private float xThrow;
     private float yThrow;
 
@@ -62,6 +70,7 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _wallRun = GetComponent<WallRun>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -91,6 +100,15 @@ public class PlayerController : MonoBehaviour
         ControlDrag();
         slopeInputVal = Vector3.ProjectOnPlane(moveInputVal, slopeHit.normal);
         _wallRun.RotateBody();
+
+        if (atSlowZone)
+        {
+            EnterSlowZone();
+        }
+        else
+        {
+            EnterNormalZone();
+        }
     }
     
     private void FixedUpdate()
@@ -101,8 +119,6 @@ public class PlayerController : MonoBehaviour
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, slopeHit.transform.rotation, Time.deltaTime * slopeRotationMulti);
                 _rigidbody.AddForce(slopeInputVal, ForceMode.Acceleration);
-
-                // _rigidbody.MovePosition(_rigidbody.position + slopeInputVal * Time.fixedDeltaTime);
             }
             else
             {
@@ -123,6 +139,8 @@ public class PlayerController : MonoBehaviour
             {
                 _rigidbody.AddForce(transform.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
                 isJump = false;
+                haveLanding = true;
+                _audioSource.PlayOneShot(bounceClip);
             }    
         }
     }
@@ -130,17 +148,27 @@ public class PlayerController : MonoBehaviour
     private void GetEyeTrackingConfig()
     {
         GazePoint gazePointRaw = TobiiAPI.GetGazePoint();
-        if (gazePointRaw.IsRecent())
+        if (gazePointRaw.IsValid)
         {
             float eyeX = gazePointRaw.Viewport.x - .5f;
             float eyeY = gazePointRaw.Viewport.y - .5f;
             xThrow = eyeX * horizontalForceMulti;
             moveInputVal += xThrow * transform.right;
-            
+
             float row = xThrow * controlRollFactor;
             rotationBody.localRotation = Quaternion.Euler(row,-90.0f, 0);
-            transform.Rotate(0.0f, eyeY * rotationMulti, 0.0f);
-            
+
+            // Debug.Log(eyeX);
+            // if (eyeX >= 0)
+            // {
+            //     Debug.Log("here" + rotationMulti);
+            //     transform.Rotate(0.0f, rotationMulti, 0.0f);
+            // }
+            // else
+            // {
+            //     transform.Rotate(0.0f, -rotationMulti, 0.0f);
+            // }
+            //
             if (eyeY >= jumpThreshold && isGrounded)
             {
                 isJump = true;
@@ -164,6 +192,11 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, groundLayer,
             QueryTriggerInteraction.Ignore);
+        if (haveLanding)
+        {
+            _audioSource.PlayOneShot(landingClip);
+            haveLanding = false;
+        }
     }
 
     private void AddVerticalForce()
@@ -211,7 +244,18 @@ public class PlayerController : MonoBehaviour
 
     public void SetCanJump(bool state)
     {
-        Debug.Log("you cannot jump now");
         canJump = state;
+    }
+
+    private void EnterSlowZone()
+    {
+        verticalForceMulti = 0;
+        Quaternion newAngle = Quaternion.Euler(transform.localRotation.x + 70, transform.localRotation.y, transform.localRotation.z);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, newAngle, Time.deltaTime / 1.5f);
+    }
+    
+    private void EnterNormalZone()
+    {
+       verticalForceMulti = 10;
     }
 }
