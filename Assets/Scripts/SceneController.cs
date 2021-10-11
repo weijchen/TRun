@@ -7,34 +7,24 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {
 
-    [SerializeField]
-    GameObject instructionPanel;
+    [SerializeField] GameObject instructionPanel;
+    [SerializeField] GameObject mainGame;
+    [SerializeField] GameObject menu;
+    [SerializeField] GameObject introAnim;
 
-    [SerializeField]
-    GameObject mainGame;
-    [SerializeField]
-    GameObject menu;
-    [SerializeField]
-    GameObject introAnim;
-    // Start is called before the first frame update
+    private GameManager _gameManager;
+    
     void Start()
     {
         instructionPanel.SetActive(false);
-
         mainGame.SetActive(false);
         introAnim.SetActive(false);
         menu.SetActive(true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     public void StartGame()
     {
-        Debug.Log("Start");
         introAnim.SetActive(true);
         menu.SetActive(false);
         //SceneManager.LoadScene("PrologueScene");

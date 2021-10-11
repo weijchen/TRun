@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,12 +10,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] float clearSpeed = 5.0f;
     [SerializeField] RawImage rawImage;
     [SerializeField] GameObject player;
+    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text timeText;
 
     private int score = 0;
     private bool isFading = false;
     private bool isClearing = true;
     private static GameManager _instance;
     private float timeCounter = 0;
+    private bool timeIsCounting = true;
     
     private Vector3 lastPos;
     private Quaternion lastRot;
@@ -47,13 +51,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        timeCounter += Time.deltaTime;
+        while(timeIsCounting)
+        {
+            timeCounter += Time.deltaTime;
+        }
+        timeText.text = GetTime();
+        scoreText.text = Getscore();
     }
 
     public string GetTime()
     {
-        string timeStr = timeCounter.ToString();
-        return timeStr + " Seconds.";
+        string timeStr = timeCounter.ToString().Substring(0, 5);
+        return timeStr + " seconds";
     }
 
     public string Getscore()
@@ -118,4 +127,9 @@ public class GameManager : MonoBehaviour
         rawImage.color = Color.Lerp(rawImage.color, Color.black, fadeSpeed * Time.deltaTime);
         Debug.Log(rawImage.color.a);
     }
-}
+
+    public void SetTimeIsCounting(bool state)
+    {
+        timeIsCounting = state;
+    }
+} 
