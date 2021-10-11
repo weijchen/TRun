@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [Header("General")]
     [SerializeField] private float playerHeight = 2.0f;
     [SerializeField] public bool atSlowZone = false;
+    [SerializeField] public bool atStopZone = false;
     
     [Header("Movement")]
     [SerializeField] private float verticalForceMulti = 10.0f;
@@ -108,6 +109,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             EnterNormalZone();
+        }
+
+        if (atStopZone)
+        {
+            EnterStopZone();
         }
     }
     
@@ -257,5 +263,10 @@ public class PlayerController : MonoBehaviour
     private void EnterNormalZone()
     {
        verticalForceMulti = 10;
+    }
+    
+    private void EnterStopZone()
+    {
+        verticalForceMulti = 0;
     }
 }
