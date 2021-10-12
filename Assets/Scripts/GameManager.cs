@@ -22,6 +22,11 @@ public class GameManager : MonoBehaviour
     
     private Vector3 lastPos;
     private Quaternion lastRot;
+    private AudioSource _audioSource;
+
+    private bool isRespawning = false;
+
+    float t = 0f;
     
     public static GameManager Instance
     {
@@ -45,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         lastPos = player.transform.position;
         lastRot = player.transform.rotation;
     }
@@ -61,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     public string GetTime()
     {
-        string timeStr = timeCounter.ToString().Substring(0, 5);
+        string timeStr = timeCounter.ToString().Length >= 5 ? timeCounter.ToString().Substring(0, 5) : timeCounter.ToString().Substring(0, 2);
         return timeStr + " seconds";
     }
 
@@ -84,6 +90,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator RespawnPlayer()
     {
+        
+        _audioSource.Play();
         player.GetComponent<PlayerController>().enabled = true;
         player.transform.position = lastPos;
         player.transform.rotation = lastRot;
@@ -95,26 +103,51 @@ public class GameManager : MonoBehaviour
             {
                 rawImage.color = Color.clear;
                 rawImage.enabled = false;
+                rawImage.gameObject.SetActive(false);
                 yield break;
             }
             yield return null;
         }
     }
 
+    public void ForceRespawnPlayer()
+    {
+        if(!isRespawning)
+        {
+            StartCoroutine(PlayerDeath());
+        }
+        
+    }
+
     public IEnumerator PlayerDeath()
     {
+        if(isRespawning)
+        {
+            yield break;
+        }
+        t = 0.0f;
         player.GetComponent<PlayerController>().enabled = false;
+        rawImage.gameObject.SetActive(true);
         rawImage.enabled = true;
-        while(true)
+        isRespawning = true;
+        while(t < 5)
         {
             FadeToBlack();
+            t += Time.deltaTime;
             if (rawImage.color.a > 0.95f)
             {
+                t = 0.0f;
                 StartCoroutine(RespawnPlayer());
+                isRespawning = false;
                 yield break;
             }
+
             yield return null;
+
         }
+        t = 0.0f;
+        StartCoroutine(RespawnPlayer());
+        yield break;
     }
 
     private void FadeToClear()

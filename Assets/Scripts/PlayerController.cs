@@ -210,12 +210,10 @@ public class PlayerController : MonoBehaviour
         Vector3 verticalForce = boardFront.transform.position - boardCenter.transform.position;
         if (isGrounded)
         {
-            Debug.Log("ground");
             moveInputVal = verticalForce * verticalForceMulti;
         }
         else
         {
-            Debug.Log("air");
             moveInputVal = verticalForce * verticalForceMulti * airMultiplier;
         }
     }

@@ -23,8 +23,9 @@ public class SceneController : MonoBehaviour
     public void StartGame()
     {
         introAnim.SetActive(true);
+        menu.GetComponent<AudioSource>().enabled = false;
         menu.SetActive(false);
-        //SceneManager.LoadScene("PrologueScene");
+
         Invoke("StartMainGame", 13.0f);
     }
 
@@ -37,12 +38,18 @@ public class SceneController : MonoBehaviour
     {
         instructionPanel.SetActive(true);
         instructionPanel.GetComponent<Animator>().SetBool("isOut", true);
-        //Debug.Log("Help");
+        StartCoroutine(AutoCloseInstructionPanel(4.5f));
+    }
+
+    IEnumerator AutoCloseInstructionPanel(float timeToClose) {
+        yield return new WaitForSeconds(timeToClose);
+        instructionPanel.SetActive(false);
+        instructionPanel.GetComponent<Animator>().SetBool("isOut", false);
     }
 
     public void CloseInstructionPanel()
     {
-        //instructionPanel.SetActive(false);
+        instructionPanel.SetActive(false);
         instructionPanel.GetComponent<Animator>().SetBool("isOut", false);
     }
 

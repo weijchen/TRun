@@ -83,7 +83,7 @@ public class GazeInput : StandaloneInputModule
             durationTime = 0;
         }
  
-        if (durationTime > 2) //看一个对象两秒触发点击事件，可以配置
+        if (durationTime > 1.5f) //看一个对象两秒触发点击事件，可以配置
         {
             Debug.Log("Send Click event, name=" + raycastResult.gameObject.name);
             ExecuteEvents.Execute(raycastResult.gameObject, pointerEventData, ExecuteEvents.pointerClickHandler);
