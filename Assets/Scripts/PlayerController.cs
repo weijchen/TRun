@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float verticalForceMulti = 10.0f;
     [SerializeField] private float verticalForceMultiBoosted = 20.0f;
-    [SerializeField] private float horizontalForceMulti = 5.0f;
+    [SerializeField] private float horizontalForceMulti = 500.0f;
+    [SerializeField] private float horizontalForceMultiKB = 100.0f;
     [SerializeField] private GameObject boardCenter;
     [SerializeField] private GameObject boardFront;
     [SerializeField] private float maxSpeed = 100.0f;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float airDrag = 1.0f;
     [SerializeField] private float airMultiplier = 0.6f;
     [SerializeField] private float rotationMulti = 0.15f;
+    [SerializeField] private float rotationMultiKB = 0.05f;
     [SerializeField] private float boostDuration = 3.0f;
 
     [Header("Rotation")]
@@ -39,7 +41,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
-    [SerializeField] private float jumpForce = .5f;
+    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float jumpForceKB = 5f;
     [SerializeField] private Transform groundChecker;
     [SerializeField] private float groundDistance = 0.2f;
     [SerializeField] private LayerMask groundLayer;
@@ -171,7 +174,14 @@ public class PlayerController : MonoBehaviour
         {
             if (isJump)
             {
-                _rigidbody.AddForce(transform.up * jumpForce * -2.0f * Physics.gravity.y, ForceMode.Impulse);
+                if (GameManager.Instance.isUsingEyeTracking)
+                {
+                    _rigidbody.AddForce(transform.up * jumpForce * -2.0f * Physics.gravity.y, ForceMode.Impulse);
+                }
+                else
+                {
+                    _rigidbody.AddForce(transform.up * jumpForceKB * -2.0f * Physics.gravity.y, ForceMode.Impulse);
+                }
                 isJump = false;
                 haveLanding = true;
                 SoundManager.Instance.PlaySFX(SFXIndex.Bouncing);
@@ -203,7 +213,7 @@ public class PlayerController : MonoBehaviour
     {
         float row = xThrow * controlRollFactor;
         rotationBody.localRotation = Quaternion.Euler(row,-90.0f, 0);
-        transform.Rotate(0.0f, Input.GetAxisRaw("Horizontal") * rotationMulti, 0.0f);
+        transform.Rotate(0.0f, Input.GetAxisRaw("Horizontal") * rotationMultiKB, 0.0f);
     }
 
     private void ControlDrag()
@@ -240,7 +250,7 @@ public class PlayerController : MonoBehaviour
 
     private void AddHorizontalForce()
     {
-        xThrow = Input.GetAxisRaw("Horizontal") * horizontalForceMulti;
+        xThrow = Input.GetAxisRaw("Horizontal") * horizontalForceMultiKB;
         moveInputVal += xThrow * transform.right;
         ProcessRotation();
     }
