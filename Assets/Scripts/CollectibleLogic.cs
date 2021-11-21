@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum UpAxis
 {
-    x,
-    y,
-    z
+    X,
+    Y,
+    Z
 }
 
 public class CollectibleLogic : MonoBehaviour
@@ -17,31 +17,30 @@ public class CollectibleLogic : MonoBehaviour
     [SerializeField] private float deleteAfterSecond = 1.0f;
     
     private Vector3 upDir;
-    private ParticleSystem particle;
+    private ParticleSystem collectVFX;
     
-    void Start()
+    private void Start()
     {
-        particle = GetComponentInChildren<ParticleSystem>();
-        particle.Stop();
+        collectVFX = GetComponentInChildren<ParticleSystem>();
+        collectVFX.Stop();
         SetUpAxis();
     }
 
-    void Update()
+    private void Update()
     {
         transform.Rotate(upDir * rotationSpeed);
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
             GetComponent<MeshRenderer>().enabled = false;
-            particle.Play();
+            collectVFX.Play();
             SoundManager.Instance.PlaySFX(SFXIndex.Collect);
             GameManager.Instance.Collect();
             PlayerController.Instance.SpeedBost();
-            // Destroy(gameObject, 2.0f);
-            Invoke("LateDestroy", deleteAfterSecond);
+            Invoke(nameof(LateDestroy), deleteAfterSecond);
         }
     }
 
@@ -49,19 +48,19 @@ public class CollectibleLogic : MonoBehaviour
     {
         switch(upAxis)
         {
-            case UpAxis.x:
+            case UpAxis.X:
                 upDir = transform.right;
                 break;
-            case UpAxis.y:
+            case UpAxis.Y:
                 upDir = transform.up;
                 break;
-            case UpAxis.z:
+            case UpAxis.Z:
                 upDir = transform.forward;
                 break;
         }
     }
 
-    void LateDestroy()
+    private void LateDestroy()
     {
         Destroy(gameObject);
     }
