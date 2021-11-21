@@ -62,6 +62,7 @@ public class CollectibleLogic : MonoBehaviour
 
     private void LateDestroy()
     {
+        Destroy(gameObject.transform.parent.gameObject);
         Destroy(gameObject);
     }
 }
