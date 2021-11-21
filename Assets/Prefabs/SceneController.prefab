@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instructionPanel: {fileID: 0}
+  mainGame: {fileID: 0}
+  menu: {fileID: 0}
+  introAnim: {fileID: 0}

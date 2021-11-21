@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    [SerializeField] GameObject instructionPanel;
-    [SerializeField] GameObject mainGame;
-    [SerializeField] GameObject menu;
-    [SerializeField] GameObject introAnim;
+    [SerializeField] private GameObject instructionPanel;
+    [SerializeField] private GameObject mainGame;
+    [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject introAnim;
 
     void Start()
     {
@@ -25,7 +25,7 @@ public class SceneController : MonoBehaviour
         menu.GetComponent<AudioSource>().enabled = false;
         menu.SetActive(false);
 
-        Invoke("StartMainGame", 13.0f);
+        Invoke(nameof(StartMainGame), 13.0f);
     }
 
     public void ExitGame()
