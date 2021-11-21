@@ -4,25 +4,14 @@ using UnityEngine;
 
 public class PhaseController : MonoBehaviour
 {
-    [SerializeField]
-    GameObject mainGame;
-    [SerializeField]
-    GameObject menu;
-    [SerializeField]
-    GameObject introAnim;
-    // Start is called before the first frame update
+    [SerializeField] GameObject mainGame;
+    [SerializeField] GameObject menu;
+    [SerializeField] GameObject introAnim;
+    
     void Start()
     {
         mainGame.SetActive(false);
         introAnim.SetActive(false);
         menu.SetActive(true);
-    }
-
-    
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

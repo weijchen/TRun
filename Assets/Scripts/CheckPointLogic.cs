@@ -8,7 +8,7 @@ public class CheckPointLogic : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.CompareTag("Player"))
         {
             GameManager.Instance.StorePlayerPosition(checkPointPosition.position, checkPointPosition.rotation);
         }

@@ -6,6 +6,11 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance = null;
+
+    [Header("General")]
+    [SerializeField] public bool isUsingEyeTracking = false;
+
     [SerializeField] float fadeSpeed = 1.5f;
     [SerializeField] float clearSpeed = 5.0f;
     [SerializeField] RawImage rawImage;
@@ -16,41 +21,29 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private bool isFading = false;
     private bool isClearing = true;
-    private static GameManager _instance;
     private float timeCounter = 0;
     private bool timeIsCounting = true;
+    private bool isRespawning = false;
     
     private Vector3 lastPos;
     private Quaternion lastRot;
-    private AudioSource _audioSource;
 
-    private bool isRespawning = false;
-
-    float t = 0f;
+    private float timer = 0f;
     
-    public static GameManager Instance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
-
     private void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            DestroyImmediate(gameObject);
         }
         else
         {
-            _instance = this;
+            Instance = this;
         }
     }
 
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
         lastPos = player.transform.position;
         lastRot = player.transform.rotation;
     }
@@ -91,7 +84,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator RespawnPlayer()
     {
         
-        _audioSource.Play();
+        SoundManager.Instance.PlaySFX(SFXIndex.Restart);
         player.GetComponent<PlayerController>().enabled = true;
         player.transform.position = lastPos;
         player.transform.rotation = lastRot;
@@ -116,7 +109,6 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(PlayerDeath());
         }
-        
     }
 
     public IEnumerator PlayerDeath()
@@ -125,29 +117,27 @@ public class GameManager : MonoBehaviour
         {
             yield break;
         }
-        t = 0.0f;
+        timer = 0.0f;
         player.GetComponent<PlayerController>().enabled = false;
         rawImage.gameObject.SetActive(true);
         rawImage.enabled = true;
         isRespawning = true;
-        while(t < 5)
+        while(timer < 5)
         {
             FadeToBlack();
-            t += Time.deltaTime;
+            timer += Time.deltaTime;
             if (rawImage.color.a > 0.95f)
             {
-                t = 0.0f;
+                timer = 0.0f;
                 StartCoroutine(RespawnPlayer());
                 isRespawning = false;
                 yield break;
             }
-
             yield return null;
 
         }
-        t = 0.0f;
+        timer = 0.0f;
         StartCoroutine(RespawnPlayer());
-        yield break;
     }
 
     private void FadeToClear()
@@ -158,7 +148,6 @@ public class GameManager : MonoBehaviour
     private void FadeToBlack()
     {
         rawImage.color = Color.Lerp(rawImage.color, Color.black, fadeSpeed * Time.deltaTime);
-        Debug.Log(rawImage.color.a);
     }
 
     public void SetTimeIsCounting(bool state)

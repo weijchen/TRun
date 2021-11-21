@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-
     [SerializeField] GameObject instructionPanel;
     [SerializeField] GameObject mainGame;
     [SerializeField] GameObject menu;
@@ -63,5 +62,4 @@ public class SceneController : MonoBehaviour
         introAnim.SetActive(false);
         mainGame.SetActive(true);
     }
-    
 }

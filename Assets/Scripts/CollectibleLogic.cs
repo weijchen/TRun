@@ -14,10 +14,8 @@ public class CollectibleLogic : MonoBehaviour
 {
     [SerializeField] private float rotationSpeed;
     [SerializeField] private UpAxis upAxis;
-    [SerializeField] private AudioClip coinClip;
     [SerializeField] private float deleteAfterSecond = 1.0f;
     
-    private AudioSource audioSource;
     private Vector3 upDir;
     private ParticleSystem particle;
     
@@ -25,7 +23,6 @@ public class CollectibleLogic : MonoBehaviour
     {
         particle = GetComponentInChildren<ParticleSystem>();
         particle.Stop();
-        audioSource = GetComponent<AudioSource>();
         SetUpAxis();
     }
 
@@ -36,12 +33,13 @@ public class CollectibleLogic : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.CompareTag("Player"))
         {
-            audioSource.PlayOneShot(coinClip);
             GetComponent<MeshRenderer>().enabled = false;
             particle.Play();
+            SoundManager.Instance.PlaySFX(SFXIndex.Collect);
             GameManager.Instance.Collect();
+            PlayerController.Instance.SpeedBost();
             // Destroy(gameObject, 2.0f);
             Invoke("LateDestroy", deleteAfterSecond);
         }

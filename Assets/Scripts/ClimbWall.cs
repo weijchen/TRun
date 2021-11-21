@@ -13,7 +13,7 @@ public class ClimbWall : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        if (other.transform.tag == "Player")
+        if (other.transform.CompareTag("Player"))
         {
             if (removeGravity)
             {

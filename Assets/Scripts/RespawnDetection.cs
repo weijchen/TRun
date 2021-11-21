@@ -6,13 +6,9 @@ public class RespawnDetection : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.CompareTag("Player"))
         {
             StartCoroutine(GameManager.Instance.PlayerDeath());
-            //GameManager.Instance.RespawnPlayer();
         }
     }
-
-
-
 }

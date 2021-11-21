@@ -12,6 +12,8 @@ using Tobii.Gaming;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance = null;
+
     [Header("General")]
     [SerializeField] private float playerHeight = 2.0f;
     [SerializeField] public bool atSlowZone = false;
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     
     [Header("Movement")]
     [SerializeField] private float verticalForceMulti = 10.0f;
+    [SerializeField] private float verticalForceMultiBoosted = 20.0f;
     [SerializeField] private float horizontalForceMulti = 5.0f;
     [SerializeField] private GameObject boardCenter;
     [SerializeField] private GameObject boardFront;
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDrag = 2.0f;
     [SerializeField] private float airMultiplier = 0.6f;
     [SerializeField] private float rotationMulti = 0.15f;
+    [SerializeField] private float boostDuration = 3.0f;
 
     [Header("Rotation")]
     [SerializeField] private Transform rotationBody;
@@ -37,7 +41,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundChecker;
     [SerializeField] private float groundDistance = 0.2f;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private bool isUsingEyeTracking = false;
     [SerializeField] private float jumpThreshold = 0.3f;
     [SerializeField] private float airDrag = 1.0f;
     
@@ -45,11 +48,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform slopeDetector;
     [SerializeField] private float slopeRotationMulti = 3.0f;
 
-    [Header("SFX")] 
-    [SerializeField] private AudioClip bounceClip;
-    [SerializeField] private AudioClip landingClip;
-    
-    
     private bool isForwarding = true;
     private bool isCrossing = true;
     private bool isJump = false;
@@ -58,34 +56,43 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveInputVal = Vector3.zero;
     private Vector3 slopeInputVal = Vector3.zero;
     private bool haveLanding = true;
+    private bool isBoosting = false;
+    private float timer;
 
     private Rigidbody _rigidbody;
     private WallRun _wallRun;
     private RaycastHit slopeHit;
-    private AudioSource _audioSource;
     
     private float xThrow;
     private float yThrow;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+    
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _wallRun = GetComponent<WallRun>();
-        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         GroundCheck();
-        
-        // vertical movement
         if (isForwarding)
         {
             AddVerticalForce();
         }
 
-        // horizontal movement
-        if (isUsingEyeTracking)
+        if (GameManager.Instance.isUsingEyeTracking)
         {
             GetEyeTrackingConfig();
         } 
@@ -94,9 +101,10 @@ public class PlayerController : MonoBehaviour
             if (isCrossing)
             {
                 AddHorizontalForce();
-                CheckJump();
             }
         }
+        
+        CheckJump();
 
         ControlDrag();
         slopeInputVal = Vector3.ProjectOnPlane(moveInputVal, slopeHit.normal);
@@ -114,6 +122,16 @@ public class PlayerController : MonoBehaviour
         if (atStopZone)
         {
             EnterStopZone();
+        }
+
+        if (isBoosting)
+        {
+            timer += Time.deltaTime;
+            if (timer > boostDuration)
+            {
+                timer = 0f;
+                isBoosting = false;
+            }
         }
     }
     
@@ -146,7 +164,7 @@ public class PlayerController : MonoBehaviour
                 _rigidbody.AddForce(transform.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
                 isJump = false;
                 haveLanding = true;
-                _audioSource.PlayOneShot(bounceClip);
+                SoundManager.Instance.PlaySFX(SFXIndex.Bouncing);
             }    
         }
     }
@@ -163,8 +181,7 @@ public class PlayerController : MonoBehaviour
 
             float row = xThrow * controlRollFactor;
             rotationBody.localRotation = Quaternion.Euler(row,-90.0f, 0);
-
-            // Debug.Log(eyeX);
+            
             // if (eyeX >= 0)
             // {
             //     Debug.Log("here" + rotationMulti);
@@ -175,11 +192,17 @@ public class PlayerController : MonoBehaviour
             //     transform.Rotate(0.0f, -rotationMulti, 0.0f);
             // }
             //
-            if (eyeY >= jumpThreshold && isGrounded)
-            {
-                isJump = true;
-            }
+
+            // if (eyeY >= jumpThreshold && isGrounded)
+            // {
+            //     isJump = true;
+            // }
         }
+    }
+
+    public void SpeedBost()
+    {
+        isBoosting = true;
     }
 
     private void ProcessRotation()
@@ -200,7 +223,7 @@ public class PlayerController : MonoBehaviour
             QueryTriggerInteraction.Ignore);
         if (haveLanding)
         {
-            _audioSource.PlayOneShot(landingClip);
+            SoundManager.Instance.PlaySFX(SFXIndex.Landing);
             haveLanding = false;
         }
     }
@@ -208,13 +231,15 @@ public class PlayerController : MonoBehaviour
     private void AddVerticalForce()
     {
         Vector3 verticalForce = boardFront.transform.position - boardCenter.transform.position;
+
         if (isGrounded)
         {
-            moveInputVal = verticalForce * verticalForceMulti;
+            moveInputVal = isBoosting ? verticalForce * verticalForceMulti : verticalForce * verticalForceMultiBoosted;
+            
         }
         else
         {
-            moveInputVal = verticalForce * verticalForceMulti * airMultiplier;
+            moveInputVal = isBoosting ? verticalForce * verticalForceMulti * airMultiplier : verticalForce * verticalForceMultiBoosted * airMultiplier;
         }
     }
 

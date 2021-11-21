@@ -493,7 +493,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2485411807785954425}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.6
   m_UseGravity: 1
@@ -515,30 +515,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHeight: 2
   atSlowZone: 0
+  atStopZone: 0
   verticalForceMulti: 2
   horizontalForceMulti: 500
   boardCenter: {fileID: 2485411806814691377}
   boardFront: {fileID: 2485411806659614393}
-  maxSpeed: 100
+  maxSpeed: 50
   groundDrag: 2
   airMultiplier: 0.6
   rotationMulti: 0.5
   rotationBody: {fileID: 2485411806200919586}
   controlRollFactor: -0.02
   jumpKey: 32
-  jumpForce: 1
+  jumpForce: 2.5
   groundChecker: {fileID: 2485411807958471290}
   groundDistance: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
-  isUsingEyeTracking: 0
+  isUsingEyeTracking: 1
   jumpThreshold: 0.1
   airDrag: 1
   slopeDetector: {fileID: 2485411806659614398}
   slopeRotationMulti: 3
-  bounceClip: {fileID: 8300000, guid: 637d840484b09f649bcf6a4cb366ce57, type: 3}
-  landingClip: {fileID: 8300000, guid: ef5873ed6e0f7974ba3caf3139fb5105, type: 3}
+  bounceClip: {fileID: 8300000, guid: 1831db782c733e945b8c85beaec89f1f, type: 3}
+  landingClip: {fileID: 8300000, guid: 45adf5b160851d9428272be5fd9ef6a4, type: 3}
 --- !u!114 &2485411807785954429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,7 +575,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.753
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -683,7 +684,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2485411807841096329}
   m_LocalRotation: {x: 0.07651893, y: 0, z: 0, w: 0.99706817}
-  m_LocalPosition: {x: 0, y: 6.1000004, z: -11.64}
+  m_LocalPosition: {x: 0, y: 6.1000004, z: -18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2485411807294321771}
@@ -1082,7 +1083,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6448852973590645357}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.38, y: -1.75, z: -4.4}
+  m_LocalPosition: {x: -0.38, y: -1.439917, z: -4.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2485411807785954424}
@@ -1129,7 +1130,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.07
+  m_Time: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1138,7 +1139,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0.012500763
-        value: 0.46428555
+        value: 0.5059497
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1147,7 +1148,7 @@ TrailRenderer:
         outWeight: 0
       - serializedVersion: 3
         time: 0.26762578
-        value: 0.31002146
+        value: 0.34474283
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1155,8 +1156,8 @@ TrailRenderer:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.52867293
-        value: 0.049999993
+        time: 0.53170943
+        value: 0.13332824
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1229,7 +1230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6448852974551094953}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.441, y: -1.75, z: -4.4}
+  m_LocalPosition: {x: 0.441, y: -1.44, z: -4.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2485411807785954424}
@@ -1276,7 +1277,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.07
+  m_Time: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1285,7 +1286,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0.012500763
-        value: 0.46428555
+        value: 0.5059497
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1294,7 +1295,7 @@ TrailRenderer:
         outWeight: 0
       - serializedVersion: 3
         time: 0.26762578
-        value: 0.31002146
+        value: 0.34474283
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1302,8 +1303,8 @@ TrailRenderer:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.52867293
-        value: 0.049999993
+        time: 0.53170943
+        value: 0.13332824
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1617,7 +1618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7685214077270384132, guid: e9a29fed289d5ba4da995b5f192237b9, type: 3}
       propertyPath: m_Name
-      value: Particle System 1
+      value: Wind
       objectReference: {fileID: 0}
     - target: {fileID: 8121390017776453346, guid: e9a29fed289d5ba4da995b5f192237b9, type: 3}
       propertyPath: m_RootOrder
