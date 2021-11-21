@@ -26,7 +26,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject boardCenter;
     [SerializeField] private GameObject boardFront;
     [SerializeField] private float maxSpeed = 100.0f;
+    [SerializeField] private float maxSpeedBoosted = 150.0f;
     [SerializeField] private float groundDrag = 2.0f;
+    [SerializeField] private float airDrag = 1.0f;
     [SerializeField] private float airMultiplier = 0.6f;
     [SerializeField] private float rotationMulti = 0.15f;
     [SerializeField] private float boostDuration = 3.0f;
@@ -42,7 +44,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundDistance = 0.2f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float jumpThreshold = 0.3f;
-    [SerializeField] private float airDrag = 1.0f;
     
     [Header("On Slope")]
     [SerializeField] private Transform slopeDetector;
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
         {
             AddVerticalForce();
         }
-
+        
         if (GameManager.Instance.isUsingEyeTracking)
         {
             GetEyeTrackingConfig();
@@ -105,11 +106,11 @@ public class PlayerController : MonoBehaviour
         }
         
         CheckJump();
-
+        
         ControlDrag();
         slopeInputVal = Vector3.ProjectOnPlane(moveInputVal, slopeHit.normal);
         _wallRun.RotateBody();
-
+        
         if (atSlowZone)
         {
             EnterSlowZone();
@@ -118,12 +119,12 @@ public class PlayerController : MonoBehaviour
         {
             EnterNormalZone();
         }
-
+        
         if (atStopZone)
         {
             EnterStopZone();
         }
-
+        
         if (isBoosting)
         {
             timer += Time.deltaTime;
@@ -131,6 +132,7 @@ public class PlayerController : MonoBehaviour
             {
                 timer = 0f;
                 isBoosting = false;
+                
             }
         }
     }
@@ -149,19 +151,27 @@ public class PlayerController : MonoBehaviour
                 _rigidbody.AddForce(moveInputVal, ForceMode.Acceleration);
             }
         }
-        
-        // Set Speed Maximum Limit
-        if (_rigidbody.velocity.magnitude > maxSpeed)
-        { 
-            _rigidbody.velocity = _rigidbody.velocity.normalized * maxSpeed;
-        }
 
-        // Jump Operation
+        if (isBoosting)
+        {
+            if (_rigidbody.velocity.magnitude > maxSpeedBoosted)
+            { 
+                _rigidbody.velocity = _rigidbody.velocity.normalized * maxSpeedBoosted;
+            }
+        }
+        else
+        {
+            if (_rigidbody.velocity.magnitude > maxSpeed)
+            { 
+                _rigidbody.velocity = _rigidbody.velocity.normalized * maxSpeed;
+            }
+        }
+        
         if (canJump)
         {
             if (isJump)
             {
-                _rigidbody.AddForce(transform.up * Mathf.Sqrt(jumpForce * -2.0f * Physics.gravity.y), ForceMode.Impulse);
+                _rigidbody.AddForce(transform.up * jumpForce * -2.0f * Physics.gravity.y, ForceMode.Impulse);
                 isJump = false;
                 haveLanding = true;
                 SoundManager.Instance.PlaySFX(SFXIndex.Bouncing);
@@ -181,22 +191,6 @@ public class PlayerController : MonoBehaviour
 
             float row = xThrow * controlRollFactor;
             rotationBody.localRotation = Quaternion.Euler(row,-90.0f, 0);
-            
-            // if (eyeX >= 0)
-            // {
-            //     Debug.Log("here" + rotationMulti);
-            //     transform.Rotate(0.0f, rotationMulti, 0.0f);
-            // }
-            // else
-            // {
-            //     transform.Rotate(0.0f, -rotationMulti, 0.0f);
-            // }
-            //
-
-            // if (eyeY >= jumpThreshold && isGrounded)
-            // {
-            //     isJump = true;
-            // }
         }
     }
 
@@ -221,6 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundChecker.position, groundDistance, groundLayer,
             QueryTriggerInteraction.Ignore);
+        
         if (haveLanding)
         {
             SoundManager.Instance.PlaySFX(SFXIndex.Landing);
@@ -234,12 +229,12 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
-            moveInputVal = isBoosting ? verticalForce * verticalForceMulti : verticalForce * verticalForceMultiBoosted;
+            moveInputVal = isBoosting ? verticalForce * verticalForceMultiBoosted : verticalForce * verticalForceMulti;
             
         }
         else
         {
-            moveInputVal = isBoosting ? verticalForce * verticalForceMulti * airMultiplier : verticalForce * verticalForceMultiBoosted * airMultiplier;
+            moveInputVal = isBoosting ? verticalForce * verticalForceMultiBoosted * airMultiplier : verticalForce * verticalForceMulti * airMultiplier;
         }
     }
 
