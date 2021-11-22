@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1.25f;
         lastPos = player.transform.position;
         lastRot = player.transform.rotation;
     }
@@ -83,7 +84,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator RespawnPlayer()
     {
-        
         SoundManager.Instance.PlaySFX(SFXIndex.Restart);
         player.GetComponent<PlayerController>().enabled = true;
         player.transform.position = lastPos;

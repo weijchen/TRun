@@ -10,6 +10,7 @@ public class CheckPointLogic : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            Debug.Log(gameObject.name);
             GameManager.Instance.StorePlayerPosition(checkPointPosition.position, checkPointPosition.rotation);
         }
     }
