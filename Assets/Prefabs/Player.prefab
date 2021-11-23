@@ -493,7 +493,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2485411807785954425}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.6
   m_UseGravity: 1
@@ -516,30 +516,33 @@ MonoBehaviour:
   playerHeight: 2
   atSlowZone: 0
   atStopZone: 0
-  verticalForceMulti: 2
-  horizontalForceMulti: 500
+  verticalForceMulti: 10
+  verticalForceMultiBoosted: 20
+  horizontalForceMulti: 1000
+  horizontalForceMultiKB: 100
   boardCenter: {fileID: 2485411806814691377}
   boardFront: {fileID: 2485411806659614393}
-  maxSpeed: 50
+  maxSpeed: 60
+  maxSpeedBoosted: 80
   groundDrag: 2
+  airDrag: 1
   airMultiplier: 0.6
   rotationMulti: 0.5
+  rotationMultiKB: 0.25
+  boostDuration: 3
   rotationBody: {fileID: 2485411806200919586}
   controlRollFactor: -0.02
   jumpKey: 32
-  jumpForce: 2.5
+  jumpForce: 0.1
+  jumpForceKB: 0.1
   groundChecker: {fileID: 2485411807958471290}
   groundDistance: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 192
-  isUsingEyeTracking: 1
   jumpThreshold: 0.1
-  airDrag: 1
   slopeDetector: {fileID: 2485411806659614398}
   slopeRotationMulti: 3
-  bounceClip: {fileID: 8300000, guid: 1831db782c733e945b8c85beaec89f1f, type: 3}
-  landingClip: {fileID: 8300000, guid: 45adf5b160851d9428272be5fd9ef6a4, type: 3}
 --- !u!114 &2485411807785954429
 MonoBehaviour:
   m_ObjectHideFlags: 0

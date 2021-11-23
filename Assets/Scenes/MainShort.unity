@@ -15668,46 +15668,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: airDrag
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: maxSpeed
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: jumpForce
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: groundDrag
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: jumpForceKB
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: maxSpeedBoosted
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: rotationMultiKB
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: verticalForceMulti
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: horizontalForceMulti
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2485411807785954431, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
 --- !u!23 &2584113358807126870

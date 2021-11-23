@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.009586625, g: 0.015849603, b: 0.025922578, a: 1}
+  m_IndirectSpecularColor: {r: 0.009586588, g: 0.015849523, b: 0.025922481, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -387,7 +387,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.5921569, a: 1}
     m_PressedColor: {r: 1, g: 0.56078434, b: 0.80392164, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1971,7 +1971,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.5921569, a: 1}
     m_PressedColor: {r: 1, g: 0.56078434, b: 0.80392164, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2018,7 +2018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.75686276, b: 1, a: 0.6862745}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6862745}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3078,7 +3078,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.5921569, a: 1}
     m_PressedColor: {r: 1, g: 0.56078434, b: 0.80392164, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -4071,7 +4071,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855130194}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 440.63007, y: 455, z: 1501}
+  m_LocalPosition: {x: 440.63007, y: 455, z: 1488}
   m_LocalScale: {x: 846.35, y: 846.35, z: 846.35}
   m_Children: []
   m_Father: {fileID: 83866360368690986}
@@ -8017,7 +8017,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.5921569, a: 1}
     m_PressedColor: {r: 1, g: 0.56078434, b: 0.80392164, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -9040,7 +9040,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.5921569, a: 1}
     m_PressedColor: {r: 1, g: 0.56078434, b: 0.80392164, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -9260,7 +9260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7c26190dd548a48b442a4a303a6e47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsingEyeTracking: 0
+  isUsingEyeTracking: 1
   fadeSpeed: 1.5
   clearSpeed: 5
   rawImage: {fileID: 2989924305097315088}
@@ -15564,11 +15564,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
       propertyPath: maxSpeed
-      value: 100
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
       propertyPath: jumpForce
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
       propertyPath: groundDrag
@@ -15576,7 +15576,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
       propertyPath: jumpForceKB
-      value: 0.05
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
+      propertyPath: maxSpeedBoosted
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
       propertyPath: rotationMultiKB
@@ -15588,7 +15592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2485411807785954430, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
       propertyPath: horizontalForceMulti
-      value: 500
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2485411807785954431, guid: 96d8fba3e4e09f84ab4554d82eca32ca, type: 3}
       propertyPath: m_Mass
@@ -23579,6 +23583,7 @@ GameObject:
   - component: {fileID: 6048672198215814211}
   - component: {fileID: 6048672198215814220}
   - component: {fileID: 7433004781463442734}
+  - component: {fileID: 6048672198215814223}
   m_Layer: 6
   m_Name: Cube (13)
   m_TagString: Untagged
@@ -23586,6 +23591,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6048672198215814223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6048672198215814222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d162aec18d5167b4baa3cc5b81906f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  removeGravity: 0
+  resumeGravity: 1
 --- !u!33 &6048672198237804228
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -176,11 +176,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (GameManager.Instance.isUsingEyeTracking)
                 {
-                    _rigidbody.AddForce(transform.up * jumpForce * -2.0f * Physics.gravity.y, ForceMode.Impulse);
+                    _rigidbody.AddForce(transform.up * jumpForce * -2.0f * Physics.gravity.y * (float) Screen.width / Screen.height, ForceMode.Impulse);
                 }
                 else
                 {
-                    _rigidbody.AddForce(transform.up * jumpForceKB * -2.0f * Physics.gravity.y, ForceMode.Impulse);
+                    _rigidbody.AddForce(transform.up * jumpForceKB * -2.0f * Physics.gravity.y * (float) Screen.width / Screen.height, ForceMode.Impulse);
                 }
                 isJump = false;
                 haveLanding = true;
